@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="/styles/search_style.css" />
+		<link rel="stylesheet" href="/styles/global_style.css" />
+		<script src="/javascript/search_plante.js" defer></script>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Chercher Plante</title>
+	</head>
+	<body>
+		<nav>
+			<div class="nav-link">
+				<a href="/index.html">Index</a>
+			</div>
+			<div class="nav-link">
+				<a href="/search_plante.html">CHERCHER</a>
+			</div>
+			<div class="nav-link">
+				<a href="/ajout_plante.html">AJOUTER</a>
+			</div>
+		</nav>
+		<main>
+			<div class="main-content">
+				<section class="left-side">
+					<div class="" id="form-and-results">
+						<div class="" id="search-form">
+							<form id="planteForm">
+								<label for="search">Chercher une espèce, famille</label>
+								<input
+									name="search"
+									id="search"
+									type="text"
+									placeholder="Phaseolus vulgaris"
+								/>
+
+                <fieldset style="display: flex; justify-content: space-evenly;">
+                  <legend style="padding-left: 5px; padding-right: 5px; text-align: center;">Chercher dans :</legend>
+                  <input type="radio" name="order" id="order-famille" value="famille">
+                  <label style="padding: 5px;" for="order-famille">Famille</label>
+
+                  <input type="radio" name="order" id="order-genre" value="genre">
+                  <label style="padding: 5px;" for="order-genre">Genre</label>
+
+                  <input type="radio" name="order" id="order-espece" value="espece">
+                  <label style="padding: 5px;" for="order-espece">Espèces</label>
+
+                  <input type="radio" name="order" id="order-all" value="all" checked>
+                  <label style="padding: 5px;" for="order-all">Tout</label>
+                </fieldset>
+							</form>
+						</div>
+						<div class="" id="form-results">
+							<div id="results-grid" class="search-result-list search-result-list-hidden">
+								<p class="result-header">Familles</p>
+								<p class="result-header">Genres</p>
+							  <p class="result-header">Espèces</p>
+						</div>
+					</div>
+				</section>
+				<section class="right-side"></section>
+			</div>
+		</main>
+	</body>
+</html>
