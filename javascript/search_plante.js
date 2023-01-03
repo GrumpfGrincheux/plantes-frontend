@@ -1,5 +1,6 @@
 const planteForm = document.getElementById("planteForm");
 planteForm.addEventListener("input", getResultData);
+const securityRegex = /[^a-zA-Z é]/g;
 
 function getResultData() {
 	if (document.getElementById("search").value.length >= 2) {
@@ -24,8 +25,6 @@ function getResultData() {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				console.log(res);
-
 				const familles = [];
 				const genres = [];
 				const especes = [];
@@ -40,6 +39,42 @@ function getResultData() {
 				];
 				let bgIndex = 1;
 				let counter = 0;
+				let result;
+				if (Array.isArray(res)) {
+					res.forEach((element) => {
+						if (!genres.includes(element.genre)) {
+							if (bgIndex == 0) {
+								++bgIndex;
+							} else {
+								bgIndex--;
+							}
+							genres.push(element.genre);
+							html += `<p class="result ${
+								backGroundColors[bgIndex]
+							}" style="grid-row: ${counter + 2}; grid-column: 2;">${
+								element.genre
+							}</p>`;
+						}
+						if (!familles.includes(element.famille)) {
+							familles.push(element.famille);
+							html += `<p class="result ${
+								backGroundColors[bgIndex]
+							}" style="grid-row: ${counter + 2}; grid-column: 1;">${
+								element.famille
+							}</p>`;
+						}
+						if (!especes.includes(element.espece)) {
+							especes.push(element.espece);
+							html += `<p class="result ${
+								backGroundColors[bgIndex]
+							} result-espece" style="grid-row: ${
+								counter + 2
+							}; grid-column: 3;">${element.espece}</p>`;
+						}
+						counter++;
+					});
+					document.getElementById("results-grid").innerHTML = html;
+				}
 				if (res.data) {
 					res.data.forEach((element) => {
 						if (!genres.includes(element.genre.name)) {
