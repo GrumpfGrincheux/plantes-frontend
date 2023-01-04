@@ -1,4 +1,4 @@
-const DOMPurify = require("dompurify");
+// const DOMPurify = require("dompurify");
 
 // Récupère le token d'accès du localStorage
 const userToken = localStorage.getItem("userToken");
@@ -79,37 +79,37 @@ function getResultData() {
 				];
 				let bgIndex = 1;
 				let counter = 0;
-				if (res.data) {
+				if (res) {
 					console.log(res.data, res);
-					res.data.forEach((element) => {
-						if (!genres.includes(element.genre.name)) {
+					res.forEach((element) => {
+						if (!genres.includes(element.genre)) {
 							if (bgIndex == 0) {
 								++bgIndex;
 							} else {
 								bgIndex--;
 							}
-							genres.push(element.genre.name);
+							genres.push(element.genre);
 							html += `<p class="result ${
 								backGroundColors[bgIndex]
 							}" style="grid-row: ${counter + 2}; grid-column: 2;">${
-								element.genre.name
+								element.genre
 							}</p>`;
 						}
-						if (!familles.includes(element.famille.name)) {
-							familles.push(element.famille.name);
+						if (!familles.includes(element.famille)) {
+							familles.push(element.famille);
 							html += `<p class="result ${
 								backGroundColors[bgIndex]
 							}" style="grid-row: ${counter + 2}; grid-column: 1;">${
-								element.famille.name
+								element.famille
 							}</p>`;
 						}
-						if (!especes.includes(element.name)) {
-							especes.push(element.name);
+						if (!especes.includes(element)) {
+							especes.push(element);
 							html += `<p class="result ${
 								backGroundColors[bgIndex]
 							} result-espece" style="grid-row: ${
 								counter + 2
-							}; grid-column: 3;">${element.name}</p>`;
+							}; grid-column: 3;">${element}</p>`;
 						}
 						counter++;
 					});
@@ -123,7 +123,7 @@ function getResultData() {
 					) {
 						html = "<p>Aucun résultat ne correspond à votre recherche<p>";
 					}
-					sanitizedHTML = DOMPurify.sanitize(html);
+					sanitizedHTML = html;
 					resultGrid.innerHTML = sanitizedHTML;
 				}
 			})

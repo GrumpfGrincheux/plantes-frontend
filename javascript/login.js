@@ -1,6 +1,7 @@
+// const DOMPurify = require("dompurify");
+
 // Récupère le token d'accès du localStorage
 const userToken = localStorage.getItem("userToken");
-
 window.onload = () => {
 	// Vérifie si le token d'accès est présent
 	if (userToken) {

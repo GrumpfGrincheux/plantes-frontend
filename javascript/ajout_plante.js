@@ -1,4 +1,4 @@
-const DOMPurify = require("dompurify");
+// const DOMPurify = require("dompurify");
 
 // Récupère le token d'accès du localStorage
 const userToken = localStorage.getItem("userToken");
@@ -22,6 +22,7 @@ window.onload = () => {
 				} else {
 					// La réponse n'est pas valide, affiche un message d'erreur
 					console.error("Erreur : token d'accès non valide ou expiré");
+					window.location.replace("http://localhost:5501/login.html");
 				}
 			},
 		)
@@ -170,7 +171,7 @@ function textInputHandler(
 				const arr = xhr.responseText.split("!");
 				const cleanArr = arr.filter(valide);
 				const output = cleanArr[cleanArr.length - 1] + "!";
-				const sanitizedOutput = DOMPurify.sanitize(output);
+				const sanitizedOutput = output;
 				form.innerHTML += `<div class="on-submit-success-message"><p>${sanitizedOutput}</p></div>`;
 				console.log(xhr.responseText);
 			}
