@@ -1,3 +1,5 @@
+const DOMPurify = require("dompurify");
+
 // Récupère le token d'accès du localStorage
 const userToken = localStorage.getItem("userToken");
 
@@ -20,7 +22,7 @@ window.onload = () => {
 				} else {
 					// La réponse n'est pas valide, affiche un message d'erreur
 					console.error("Erreur : token d'accès non valide ou expiré");
-					window.location.replace("http://localhost:5500/login.html");
+					window.location.replace("http://localhost:5501/login.html");
 				}
 			},
 		)
@@ -31,7 +33,7 @@ window.onload = () => {
 	} else {
 		// Affiche un message d'erreur
 		console.error("Token d'accès non trouvé");
-		window.location.replace("http://localhost:5500/login.html");
+		window.location.replace("http://localhost:5501/login.html");
 	}
 };
 
@@ -78,6 +80,7 @@ function getResultData() {
 				let bgIndex = 1;
 				let counter = 0;
 				if (res.data) {
+					console.log(res.data, res);
 					res.data.forEach((element) => {
 						if (!genres.includes(element.genre.name)) {
 							if (bgIndex == 0) {
@@ -120,8 +123,8 @@ function getResultData() {
 					) {
 						html = "<p>Aucun résultat ne correspond à votre recherche<p>";
 					}
-					html = html.replace(securityRegex, "");
-					resultGrid.innerHTML = html;
+					sanitizedHTML = DOMPurify.sanitize(html);
+					resultGrid.innerHTML = sanitizedHTML;
 				}
 			})
 			.catch((error) => {
