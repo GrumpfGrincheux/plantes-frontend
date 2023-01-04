@@ -154,7 +154,9 @@ function textInputHandler(
 				}
 				const arr = xhr.responseText.split("!");
 				const cleanArr = arr.filter(valide);
-				const output = cleanArr[cleanArr.length - 1] + "!";
+				const output = (cleanArr[cleanArr.length - 1] + "!")
+					.replace(securityRegex, "")
+					.replace(/script/, "");
 				form.innerHTML += `<div class="on-submit-success-message"><p>${output}</p></div>`;
 				console.log(xhr.responseText);
 			}

@@ -20,6 +20,7 @@ window.onload = () => {
 				} else {
 					// La réponse n'est pas valide, affiche un message d'erreur
 					console.error("Erreur : token d'accès non valide ou expiré");
+					window.location.replace("http://localhost:5500/login.html");
 				}
 			},
 		)
@@ -34,15 +35,15 @@ window.onload = () => {
 	}
 };
 
+const resultGrid = document.getElementById("results-grid");
+const search = document.getElementById("search");
 const planteForm = document.getElementById("planteForm");
 planteForm.addEventListener("input", getResultData);
 const securityRegex = /[^a-zA-Z é]/g;
 
 function getResultData() {
-	if (document.getElementById("search").value.length >= 2) {
-		document
-			.getElementById("results-grid")
-			.classList.remove("search-result-list-hidden");
+	if (search.value.length >= 2) {
+		resultGrid.classList.remove("search-result-list-hidden");
 		const formData = new FormData(planteForm);
 		const data = {};
 		for (const [key, value] of formData.entries()) {
@@ -76,42 +77,6 @@ function getResultData() {
 				];
 				let bgIndex = 1;
 				let counter = 0;
-				let result;
-				if (Array.isArray(res)) {
-					res.forEach((element) => {
-						if (!genres.includes(element.genre)) {
-							if (bgIndex == 0) {
-								++bgIndex;
-							} else {
-								bgIndex--;
-							}
-							genres.push(element.genre);
-							html += `<p class="result ${
-								backGroundColors[bgIndex]
-							}" style="grid-row: ${counter + 2}; grid-column: 2;">${
-								element.genre
-							}</p>`;
-						}
-						if (!familles.includes(element.famille)) {
-							familles.push(element.famille);
-							html += `<p class="result ${
-								backGroundColors[bgIndex]
-							}" style="grid-row: ${counter + 2}; grid-column: 1;">${
-								element.famille
-							}</p>`;
-						}
-						if (!especes.includes(element.espece)) {
-							especes.push(element.espece);
-							html += `<p class="result ${
-								backGroundColors[bgIndex]
-							} result-espece" style="grid-row: ${
-								counter + 2
-							}; grid-column: 3;">${element.espece}</p>`;
-						}
-						counter++;
-					});
-					document.getElementById("results-grid").innerHTML = html;
-				}
 				if (res.data) {
 					res.data.forEach((element) => {
 						if (!genres.includes(element.genre.name)) {
@@ -145,15 +110,24 @@ function getResultData() {
 						}
 						counter++;
 					});
-					document.getElementById("results-grid").innerHTML = html;
+					if (
+						html ==
+						`
+				  <p class="result-header">Familles</p>
+				  <p class="result-header">Genres</p>
+				  <p class="result-header">Espèces</p>
+				  `
+					) {
+						html = "<p>Aucun résultat ne correspond à votre recherche<p>";
+					}
+					html = html.replace(securityRegex, "");
+					resultGrid.innerHTML = html;
 				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
-	} else if (document.getElementById("search").value == "") {
-		document
-			.getElementById("results-grid")
-			.classList.add("search-result-list-hidden");
+	} else if (search.value == "") {
+		resultGrid.classList.add("search-result-list-hidden");
 	}
 }
