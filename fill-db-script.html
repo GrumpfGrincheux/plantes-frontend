@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button id="familles">familles</button>
+  <button id="genres">genres</button>
+  <button id="especes">especes</button>
+
+  <script>
+    const familles = [
+      { name: "Solanacées" },
+      { name: "Cucurbitacées" },
+      { name: "Fabacées" },
+      { name: "Asteracées" },
+      { name: "Rosacées" },
+      { name: "Brassicacées" },
+      { name: "Alliacées" },
+    ];
+
+    const genres = [
+      { name: "Solanum", familleId: 1 },
+      { name: "Capsicum", familleId: 1 },
+      { name: "Brassica", familleId: 6 },
+      { name: "Raphanus", familleId: 6 },
+      { name: "Cucurbita", familleId: 2 },
+      { name: "Cucumis", familleId: 2 },
+      { name: "Lactuca", familleId: 4 },
+      { name: "Calendula", familleId: 4 },
+      { name: "Allium", familleId: 7 },
+      { name: "Phaseolus", familleId: 3 },
+      { name: "Pisum", familleId: 3 },
+      { name: "Prunus", familleId: 5 },
+      { name: "Rubus", familleId: 5 },
+      { name: "Malus", familleId: 5 },
+      { name: "Artemisia", familleId: 4 },
+    ];
+
+    const especes = [
+      { name: "Allium cepa", genreId: 9, familleId: 7 },
+      { name: "Phaseolus vulgaris", genreId: 10, familleId: 3 },
+      { name: "Brassica oleracea", genreId: 3, familleId: 6 },
+      { name: "Brassica rapa", genreId: 3, familleId: 6 },
+      { name: "Cucurbita maxima", genreId: 5, familleId: 2 },
+      { name: "Cucurbita moschata", genreId: 5, familleId: 2 },
+      { name: "Cucumis sativus", genreId: 6, familleId: 2 },
+      { name: "Cucumis melo", genreId: 6, familleId: 2 },
+      { name: "Solanum lycopersicum", genreId: 1, familleId: 1 },
+      {
+        name: "Solanum tuberosum",
+        genreId: 1,
+        familleId: 1,
+      },
+      {
+        name: "Lactuca sativa",
+        genreId: 7,
+        familleId: 4,
+      },
+      {
+        name: "Calendula officinalis",
+        genreId: 8,
+        familleId: 4,
+      },
+      {
+        name: "Prunus persica",
+        genreId: 12,
+        familleId: 5,
+      },
+      {
+        name: "Malus sylvestris",
+        genreId: 14,
+        familleId: 5,
+      },
+      {
+        name: "Rubus idaeus",
+        genreId: 13,
+        familleId: 5,
+      },
+      {
+        name: "Rubus fruticosus",
+        genreId: 13,
+        familleId: 5,
+      },
+      {
+        name: "Pisum sativum",
+        genreId: 11,
+        familleId: 3,
+      },
+      {
+        name: "Raphanus sativus",
+        genreId: 4,
+        familleId: 6,
+      },
+      {
+        name: "Capsicum annuum",
+        genreId: 2,
+        familleId: 1,
+      },
+      {
+        name: "Capsicum chinense",
+        genreId: 2,
+        familleId: 1,
+      },
+      {
+        name: "Capsicum frutescens",
+        genreId: 2,
+        familleId: 1,
+      },
+      {
+        name: "Capsicum baccatum",
+        genreId: 2,
+        familleId: 1,
+      },
+      {
+        name: "Capsicum pubescens",
+        genreId: 2,
+        familleId: 1,
+      },
+      {
+        name: "Allium porrum",
+        genreId: 9,
+        familleId: 7,
+      },
+      {
+        name: "Allium sativum",
+        genreId: 9,
+        familleId: 7,
+      },
+      {
+        name: "Allium schoenoprasum",
+        genreId: 9,
+        familleId: 7,
+      },
+      {
+        name: "Solanum melongena",
+        genreId: 1,
+        familleId: 1,
+      },
+      {
+        name: "Artemisia dracunculus",
+        genreId: 15,
+        familleId: 4,
+      },
+    ];
+    const familleButton = document.getElementById("familles");
+    const genreButton = document.getElementById("genres");
+    const especeButton = document.getElementById("especes");
+
+    familleButton.addEventListener("click", (e) => {
+      familles.forEach((element) => {
+        fetch(`http://localhost:3000/familles`, {
+          method: "POST",
+          body: JSON.stringify(element),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+          .then((res) => console.log(res))
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+    });
+    genreButton.addEventListener("click", (e) => {
+      genres.forEach((element) => {
+        fetch(`http://localhost:3000/genres`, {
+          method: "POST",
+          body: JSON.stringify(element),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+          .then((res) => console.log(res))
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+    });
+    especeButton.addEventListener("click", (e) => {
+      especes.forEach((element) => {
+        fetch(`http://localhost:3000/especes`, {
+          method: "POST",
+          body: JSON.stringify(element),
+          headers: {
+            "Content-type": "application/json",
+          },
+        })
+          .then((res) => console.log(res))
+          .catch((e) => {
+            console.log(e);
+          });
+      });
+    });
+  </script>
+</body>
+</html>
