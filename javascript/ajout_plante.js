@@ -1,38 +1,41 @@
-// Récupère le token d'accès du localStorage
-const userToken = localStorage.getItem("userToken");
+// // const DOMPurify = require("dompurify");
 
-window.onload = () => {
-	// Vérifie si le token d'accès est présent
-	if (userToken) {
-		// Fait la requête avec le token d'accès
-		fetch(
-			"http://localhost:3000/api/auth",
-			{
-				method: "get",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${userToken}`,
-				},
-			},
-			(req, res) => {
-				if (res.ok) {
-					console.log(data);
-				} else {
-					// La réponse n'est pas valide, affiche un message d'erreur
-					console.error("Erreur : token d'accès non valide ou expiré");
-				}
-			},
-		)
-			.then((res) => res.json())
-			.catch((error) => {
-				console.error(error);
-			});
-	} else {
-		// Affiche un message d'erreur
-		console.error("Token d'accès non trouvé");
-		window.location.replace("http://localhost:5500/login.html");
-	}
-};
+// // Récupère le token d'accès du localStorage
+// const userToken = localStorage.getItem("userToken");
+
+// window.onload = () => {
+// 	// Vérifie si le token d'accès est présent
+// 	if (userToken) {
+// 		// Fait la requête avec le token d'accès
+// 		fetch(
+// 			"http://localhost:3000/api/auth",
+// 			{
+// 				method: "get",
+// 				headers: {
+// 					"Content-Type": "application/json",
+// 					Authorization: `Bearer ${userToken}`,
+// 				},
+// 			},
+// 			(req, res) => {
+// 				if (res.ok) {
+// 					console.log(data);
+// 				} else {
+// 					// La réponse n'est pas valide, affiche un message d'erreur
+// 					console.error("Erreur : token d'accès non valide ou expiré");
+// 					window.location.replace("http://localhost:5501/login.html");
+// 				}
+// 			},
+// 		)
+// 			.then((res) => res.json())
+// 			.catch((error) => {
+// 				console.error(error);
+// 			});
+// 	} else {
+// 		// Affiche un message d'erreur
+// 		console.error("Token d'accès non trouvé");
+// 		window.location.replace("http://localhost:5501/login.html");
+// 	}
+// };
 
 setTimeout(() => {
 	document.getElementById("add-famille").classList.add("add-form-visible");
@@ -59,10 +62,11 @@ function textInputHandler(
 	let globalSuggestionIncrement = 1;
 
 	function autoComplete() {
-		let send;
+		let send, adress;
 
 		if (form.id === "add-famille") {
 			send = new FormData(form);
+			adress = "http://localhost:3000/find/familles";
 		}
 		if (form.id === "add-genre") {
 			send = new FormData(form);
@@ -70,6 +74,7 @@ function textInputHandler(
 				"famille",
 				document.getElementById("famille-choice").textContent,
 			);
+			adress = "http://localhost:3000/find/genres";
 		}
 		if (form.id === "add-espece") {
 			send = new FormData(form);
@@ -78,29 +83,40 @@ function textInputHandler(
 				document.getElementById("famille-choice").textContent,
 			);
 			send.append("genre", document.getElementById("genre-choice").textContent);
+			adress = "http://localhost:3000/find/especes";
 		}
 		if (textInput.value != "") {
-			const xhr = new XMLHttpRequest();
-			xhr.open("POST", "/pages/plantes/php/auto_complete.php", true);
-			xhr.onload = () => {
-				let arr = [];
-				let html = "";
-				const jsonObject = JSON.parse(xhr.responseText);
-				jsonObject.forEach((element) => {
-					arr.push(element.name);
-					html += `<p id="sugg${globalSuggestionIncrement}" onclick="onClickAutoComplete(
+			fetch(adress, {
+				method: "POST",
+				body: JSON.stringify(send),
+				headers: {
+					"Content-type": "application/json",
+					Authorization: `Bearer ${userToken}`,
+				},
+			})
+				.then((res) => res.json())
+				.then((res) => {
+					let arr = [];
+					let html = "";
+
+					res.data.forEach((element) => {
+						arr.push(element.name);
+						html += `<p id="sugg${globalSuggestionIncrement}" onclick="onClickAutoComplete(
           'sugg${globalSuggestionIncrement}', '${textInputID}')" class="suggestion">${element.name}</p>`;
-					globalSuggestionIncrement++;
+						globalSuggestionIncrement++;
+					});
+				})
+				.catch((error) => {
+					console.log(error);
 				});
-				if (html == "") {
-					suggestions.innerHTML = "";
-					suggestions.classList.remove("suggestions-visible");
-				} else {
-					suggestions.classList.add("suggestions-visible");
-					suggestions.innerHTML = html;
-				}
-			};
-			xhr.send(send);
+
+			if (html == "") {
+				suggestions.innerHTML = "";
+				suggestions.classList.remove("suggestions-visible");
+			} else {
+				suggestions.classList.add("suggestions-visible");
+				suggestions.innerHTML = html;
+			}
 		} else if (textInput.value == "") {
 			suggestions.classList.remove("suggestions-visible");
 		}
@@ -154,10 +170,9 @@ function textInputHandler(
 				}
 				const arr = xhr.responseText.split("!");
 				const cleanArr = arr.filter(valide);
-				const output = (cleanArr[cleanArr.length - 1] + "!")
-					.replace(securityRegex, "")
-					.replace(/script/, "");
-				form.innerHTML += `<div class="on-submit-success-message"><p>${output}</p></div>`;
+				const output = cleanArr[cleanArr.length - 1] + "!";
+				const sanitizedOutput = output;
+				form.innerHTML += `<div class="on-submit-success-message"><p>${sanitizedOutput}</p></div>`;
 				console.log(xhr.responseText);
 			}
 		};

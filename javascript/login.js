@@ -1,6 +1,7 @@
+// const DOMPurify = require("dompurify");
+
 // Récupère le token d'accès du localStorage
 const userToken = localStorage.getItem("userToken");
-
 window.onload = () => {
 	// Vérifie si le token d'accès est présent
 	if (userToken) {
@@ -17,7 +18,7 @@ window.onload = () => {
 			(req, res) => {
 				if (res.ok) {
 					console.log(data);
-					window.location.replace("http://localhost:5500/");
+					window.location.replace("http://localhost:5501/");
 				} else {
 					// La réponse n'est pas valide, affiche un message d'erreur
 					console.error("Erreur : token d'accès non valide ou expiré");
@@ -59,7 +60,7 @@ function login() {
 			let expirationDate = new Date();
 			expirationDate.setHours(expirationDate.getHours() + 1);
 			localStorage.setItem("userToken", token, { expires: expirationDate });
-			window.location.replace("http://localhost:5500");
+			window.location.replace("http://localhost:5501");
 		})
 		.catch((error) => {
 			console.log(error);

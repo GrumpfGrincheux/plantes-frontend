@@ -7,6 +7,7 @@
 			href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
 			rel="stylesheet"
 		/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.3/purify.min.js" integrity="sha512-3dcbndbDLLWfKWevQu8C/1qVRcxx6h+eRDSnn3/pcBZHISRJgsj3u71U/Ad6nQVHrEi05hOSr6Hnb/p0pWc94w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 		<link rel="stylesheet" href="/styles/search_style.css" />
 		<link rel="stylesheet" href="/styles/global_style.css" />
 		<script src="/javascript/search_plante.js" defer></script>
@@ -28,6 +29,24 @@
 			</div>
 		</nav>
 		<main>
+      <div id="addPlanteFormContainer" class="addPlanteFormContainer-hidden">
+        <fieldset>
+          <legend>Ajouter une plante<label id="planteLabel"></label></legend>
+          <form id="addPlanteForm">
+            <input type="text" id="especeName" name="especeName">
+            
+            <label for="name">Nom commun :</label>
+            <input type="text" name="name" id="name" placeholder="Tomate">
+            <label for="taille">Taille :</label>
+            <input type="text" name="taille" id="taille" placeholder="Tomate">
+            <input
+									id="planteSubmit"
+									type="submit"
+									value="Soumettre"
+								/>
+          </form>
+        </fieldset>
+      </div>
 			<div class="main-content">
 				<section class="left-side">
 					<div class="" id="form-and-results">
