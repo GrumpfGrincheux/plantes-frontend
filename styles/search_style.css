@@ -86,8 +86,29 @@ main {
 .result-bg-color-dark {
 	background-color: #dfdfdf;
 }
+.result-espece:hover {
+	background-color: #dbe7db;
+	cursor: pointer;
+}
 .right-side {
 	margin: 0;
 	padding: 0;
 	border: #000000 solid 1px;
+}
+
+#addPlanteFormContainer {
+	padding: 20px;
+	border: black 1px solid;
+	background-color: #ecebeb;
+	position: absolute;
+	left: 40vw;
+	top: 40vh;
+}
+.addPlanteFormContainer-hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+
+#especeName {
+	display: none;
 }
